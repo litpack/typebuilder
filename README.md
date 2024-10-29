@@ -20,7 +20,7 @@ npm install @mehrabi/typebuilder
 Or, if you prefer yarn:
 
 ```bash
-yarn add typebuilder
+yarn add @mehrabi/typebuilder
 ```
 
 ## Usage
