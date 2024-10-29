@@ -14,7 +14,6 @@ TypeBuilder is a TypeScript-based library that implements the Builder design pat
 
 To install TypeBuilder, use npm:
 
-```bash
 npm install typebuilder
 ```
 
@@ -134,5 +133,3 @@ Your Name
 
 - [Zod](https://github.com/colinhacks/zod) for providing a powerful validation library.
 - [TypeScript](https://www.typescriptlang.org/) for enhancing JavaScript with static types.
-```
-
