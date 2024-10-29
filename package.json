@@ -1,0 +1,42 @@
+{
+  "name": "typebuilder",
+  "version": "1.0.0",
+  "description": "A TypeScript-based builder pattern library with Zod validation.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node ./dist/index.js",
+    "dev": "tsc --watch & node --watch dist ./dist/index.js",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mehrabix/typebuilder.git"
+  },
+  "keywords": [
+    "builder-pattern",
+    "typescript",
+    "zod",
+    "validation",
+    "library"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mehrabix/typebuilder/issues"
+  },
+  "homepage": "https://github.com/mehrabix/typebuilder#readme"
+}
