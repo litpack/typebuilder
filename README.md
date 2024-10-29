@@ -14,7 +14,7 @@ TypeBuilder is a TypeScript-based library that implements the Builder design pat
 
 To install TypeBuilder, use npm:
 
-npm install typebuilder
+npm install @mehrabi/typebuilder
 ```
 
 Or, if you prefer yarn:
