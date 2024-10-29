@@ -1,7 +1,7 @@
 import { z, ZodObject } from "zod";
 
 type SetterMethods<T extends ZodObject<any>> = {
-  [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (value: z.infer<T>["shape"][K]) => Builder<T> & SetterMethods<T>;
+  [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (value: z.infer<T["shape"][K]>) => Builder<T> & SetterMethods<T>;
 } & {
   build(): z.infer<T>;
 };
@@ -16,9 +16,9 @@ export class Builder<T extends ZodObject<any>> {
   private createSetters(): void {
     Object.keys(this.schema.shape).forEach((key) => {
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-      
+
       Object.defineProperty(this, `set${capitalizedKey}`, {
-        value(value: any) {
+        value: (value: z.infer<T["shape"][typeof key]>) => {
           this.data[key as keyof T["shape"]] = value;
           return this;
         },
