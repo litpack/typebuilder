@@ -1,4 +1,4 @@
-import { z, ZodObject } from "zod";
+import { z, ZodObject, ZodTypeAny } from "zod";
 
 type SetterMethods<T extends ZodObject<any>> = {
   [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (value: z.infer<T["shape"][K]>) => Builder<T> & SetterMethods<T>;
@@ -14,11 +14,19 @@ export class Builder<T extends ZodObject<any>> {
   }
 
   private createSetters(): void {
-    Object.keys(this.schema.shape).forEach((key) => {
+    const shape = this.schema.shape as Record<string, ZodTypeAny>;
+
+    Object.keys(shape).forEach((key) => {
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
 
       Object.defineProperty(this, `set${capitalizedKey}`, {
         value: (value: z.infer<T["shape"][typeof key]>) => {
+          const result = shape[key].safeParse(value);
+
+          if (!result.success) {
+            throw new Error(`Validation error for ${key}: ${result.error.message}`);
+          }
+
           this.data[key as keyof T["shape"]] = value;
           return this;
         },
