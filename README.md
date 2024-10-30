@@ -79,7 +79,7 @@ Here’s a complete example of using TypeBuilder with a simple User object:
 
 ```typescript
 import { z } from "zod";
-import { createBuilder } from "typebuilder";
+import { createBuilder } from "@mehrabi/typebuilder";
 
 // Define the User schema
 const UserSchema = z.object({
@@ -127,7 +127,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-Your Name
+Aaron Mehrabi
 
 ## Acknowledgments
 
