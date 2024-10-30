@@ -51,7 +51,7 @@ You can now use the builder to create a validated object:
 
 ```typescript
 try {
-  const user =  UserBuilder
+  const user = UserBuilder
     .setId("123e4567-e89b-12d3-a456-426614174000")
     .setName("Alice")
     .setAge(25)
@@ -94,7 +94,7 @@ const UserBuilder = createBuilder(UserSchema);
 
 // Build a User object
 try {
-  const user =  UserBuilder
+  const user = UserBuilder
     .setId("123e4567-e89b-12d3-a456-426614174000")
     .setName("Alice")
     .setAge(25)
