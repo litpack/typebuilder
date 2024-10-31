@@ -1,15 +1,16 @@
 import { z, ZodObject, ZodTypeAny } from "zod";
 
-type SetterMethods<T extends ZodObject<any>> = {
-  [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (
+type SetterMethods<T extends ZodObject<any>, UsedKeys extends keyof T["shape"] = never> = {
+  [K in keyof T["shape"] & string as Exclude<`set${Capitalize<K>}`, UsedKeys>]: (
     value: z.infer<T["shape"][K]>
-  ) => Builder<T> & SetterMethods<T>;
+  ) => Builder<T, UsedKeys | K> & SetterMethods<T, UsedKeys | K>;
 } & {
   build(): z.infer<T>;
 };
 
-export class Builder<T extends ZodObject<any>> {
+export class Builder<T extends ZodObject<any>, UsedKeys extends keyof T["shape"] = never> {
   private data: Partial<z.infer<T>> = {};
+  private memo: Map<string, unknown> = new Map();
 
   constructor(private schema: T) {
     this.createSetters();
@@ -21,29 +22,33 @@ export class Builder<T extends ZodObject<any>> {
     Object.keys(shape).forEach((key) => {
       const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
 
-      Object.defineProperty(this, `set${capitalizedKey}`, {
-        value: (value: z.infer<T["shape"][typeof key]>) => {
-          const result = shape[key].safeParse(value);
+      if (!Object.prototype.hasOwnProperty.call(this, `set${capitalizedKey}`)) {
+        Object.defineProperty(this, `set${capitalizedKey}`, {
+          value: (value: z.infer<T["shape"][typeof key]>) => {
+            if (this.memo.has(key)) return this;
 
-          if (!result.success) {
-            if (process.env.NODE_ENV === "development") {
-              console.warn(
-                `Development validation warning for ${key}: ${result.error.message}`
-              );
-            } else {
-              throw new Error(
-                `Validation error for ${key}: ${result.error.message}`
-              );
+            const result = shape[key].safeParse(value);
+            if (!result.success) {
+              if (process.env.NODE_ENV === "development") {
+                console.warn(
+                  `Development validation warning for ${key}: ${result.error.message}`
+                );
+              } else {
+                throw new Error(
+                  `Validation error for ${key}: ${result.error.message}`
+                );
+              }
             }
-          }
 
-          this.data[key as keyof T["shape"]] = value;
-          return this;
-        },
-        writable: false,
-        enumerable: false,
-        configurable: true,
-      });
+            this.data[key as keyof T["shape"]] = value;
+            this.memo.set(key, value);
+            return this;
+          },
+          writable: false,
+          enumerable: false,
+          configurable: true,
+        });
+      }
     });
   }
 
