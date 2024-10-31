@@ -1,7 +1,9 @@
 import { z, ZodObject, ZodTypeAny } from "zod";
 
 type SetterMethods<T extends ZodObject<any>> = {
-  [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (value: z.infer<T["shape"][K]>) => Builder<T> & SetterMethods<T>;
+  [K in keyof T["shape"] & string as `set${Capitalize<K>}`]: (
+    value: z.infer<T["shape"][K]>
+  ) => Builder<T> & SetterMethods<T>;
 } & {
   build(): z.infer<T>;
 };
@@ -24,7 +26,15 @@ export class Builder<T extends ZodObject<any>> {
           const result = shape[key].safeParse(value);
 
           if (!result.success) {
-            throw new Error(`Validation error for ${key}: ${result.error.message}`);
+            if (process.env.NODE_ENV === "development") {
+              console.warn(
+                `Development validation warning for ${key}: ${result.error.message}`
+              );
+            } else {
+              throw new Error(
+                `Validation error for ${key}: ${result.error.message}`
+              );
+            }
           }
 
           this.data[key as keyof T["shape"]] = value;
@@ -42,7 +52,9 @@ export class Builder<T extends ZodObject<any>> {
   }
 }
 
-export function createBuilder<T extends ZodObject<any>>(schema: T): Builder<T> & SetterMethods<T> {
+export function createBuilder<T extends ZodObject<any>>(
+  schema: T
+): Builder<T> & SetterMethods<T> {
   const builder = new Builder(schema);
   return builder as Builder<T> & SetterMethods<T>;
 }

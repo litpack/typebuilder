@@ -1,6 +1,6 @@
 {
   "name": "@mehrabi/typebuilder",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A TypeScript-based builder pattern library with Zod validation.",
   "type": "module",
   "main": "./dist/index.js",
@@ -20,6 +20,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/node": "^22.8.5",
     "typescript": "^5.2.2"
   },
   "repository": {
