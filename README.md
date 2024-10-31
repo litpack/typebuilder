@@ -14,6 +14,7 @@ TypeBuilder is a TypeScript-based library that implements the Builder design pat
 
 To install TypeBuilder, use npm:
 
+```bash
 npm install @litpack/typebuilder
 ```
 
@@ -113,11 +114,11 @@ try {
 
 Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/YourFeature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/YourFeature`)
-5. Open a pull request
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
 ## License
 

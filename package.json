@@ -1,6 +1,6 @@
 {
   "name": "@litpack/typebuilder",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "A TypeScript-based builder pattern library with Zod validation.",
   "type": "module",
   "main": "./dist/index.js",
