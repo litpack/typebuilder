@@ -30,8 +30,7 @@ yarn add @litpack/typebuilder
 To create a new object using TypeBuilder, first define a Zod schema for the object:
 
 ```typescript
-import { z } from "zod";
-import { createBuilder } from "typebuilder";
+import { createBuilder, z } from "@litpack/typebuilder";
 
 // Define your Zod schema
 const UserSchema = z.object({
@@ -78,8 +77,7 @@ The `UserBuilder` automatically provides setter methods based on the Zod schema:
 Here’s a complete example of using TypeBuilder with a simple User object:
 
 ```typescript
-import { z } from "zod";
-import { createBuilder } from "@litpack/typebuilder";
+import { createBuilder, z } from "@litpack/typebuilder";
 
 // Define the User schema
 const UserSchema = z.object({
@@ -127,7 +125,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-Aaron litpack
+Litpack
 
 ## Acknowledgments
 
