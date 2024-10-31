@@ -14,13 +14,13 @@ TypeBuilder is a TypeScript-based library that implements the Builder design pat
 
 To install TypeBuilder, use npm:
 
-npm install @mehrabi/typebuilder
+npm install @litpack/typebuilder
 ```
 
 Or, if you prefer yarn:
 
 ```bash
-yarn add @mehrabi/typebuilder
+yarn add @litpack/typebuilder
 ```
 
 ## Usage
@@ -79,7 +79,7 @@ Here’s a complete example of using TypeBuilder with a simple User object:
 
 ```typescript
 import { z } from "zod";
-import { createBuilder } from "@mehrabi/typebuilder";
+import { createBuilder } from "@litpack/typebuilder";
 
 // Define the User schema
 const UserSchema = z.object({
@@ -127,7 +127,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Author
 
-Aaron Mehrabi
+Aaron litpack
 
 ## Acknowledgments
 
