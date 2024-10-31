@@ -46,6 +46,15 @@ describe('Builder - Validation Caching', () => {
 
         expect((builder as any).validationCache.size).toBe(0);
     });
+
+    it('does not cache successful validation for different fields', () => {
+        const builder = createBuilder(TestSchema);
+        builder.setName('Alice');
+        builder.setAge(30);
+        builder.setEmail('alice@example.com');
+
+        expect((builder as any).validationCache.size).toBe(3);
+    });
 });
 
 describe('Builder - Build Method', () => {
@@ -83,5 +92,51 @@ describe('Builder - Build Method', () => {
         builder.setEmail('bob@example.com');
 
         expect(() => builder.build()).toThrow('Validation error for age');
+    });
+
+    it('allows building with valid values after correcting a previous invalid value', () => {
+        const builder = createBuilder(TestSchema);
+        builder.setName('Alice');
+
+        try {
+            builder.setAge(-1);
+        } catch (e) {}
+
+        builder.setAge(30);
+        builder.setEmail('alice@example.com');
+
+        const result = builder.build();
+        expect(result).toEqual({ name: 'Alice', age: 30, email: 'alice@example.com' });
+    });
+
+    it('correctly throws an error when an invalid email is set', () => {
+        const builder = createBuilder(TestSchema).setName('Alice').setAge(25);
+        
+        expect(() => builder.setEmail('not-an-email')).toThrow('Validation error for email');
+    });
+
+    it('handles multiple invalid fields and throws appropriate errors', () => {
+        const builder = createBuilder(TestSchema);
+        
+        try {
+            builder.setAge(-10);
+        } catch (e) {}
+
+        try {
+            builder.setEmail('invalid-email');
+        } catch (e) {}
+
+        expect(() => builder.build()).toThrow('Validation error for age');
+    });
+    
+    it('should throw appropriate error messages for invalid fields in development mode', () => {
+        const originalEnv = process.env.NODE_ENV;
+        process.env.NODE_ENV = 'development';
+
+        const builder = createBuilder(TestSchema).setName('Alice');
+        
+        expect(() => builder.setEmail('invalid-email')).toThrow('Validation error for email');
+        
+        process.env.NODE_ENV = originalEnv;
     });
 });
