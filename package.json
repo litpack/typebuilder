@@ -1,6 +1,6 @@
 {
-  "name": "@mehrabi/typebuilder",
-  "version": "1.0.12",
+  "name": "@litpack/typebuilder",
+  "version": "1.0.13",
   "description": "A TypeScript-based builder pattern library with Zod validation.",
   "type": "module",
   "main": "./dist/index.js",
