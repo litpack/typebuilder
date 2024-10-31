@@ -1,7 +1,7 @@
 import { z, ZodObject, ZodTypeAny } from "zod";
 
 type SetterMethods<T extends ZodObject<any>, UsedKeys extends keyof T["shape"] = never> = {
-  [K in keyof T["shape"] & string as Exclude<`set${Capitalize<K>}`, UsedKeys>]: (
+  [K in keyof T["shape"] & string as K extends UsedKeys ? never : `set${Capitalize<K>}`]: (
     value: z.infer<T["shape"][K]>
   ) => Builder<T, UsedKeys | K> & SetterMethods<T, UsedKeys | K>;
 } & {
@@ -42,7 +42,7 @@ export class Builder<T extends ZodObject<any>, UsedKeys extends keyof T["shape"]
 
             this.data[key as keyof T["shape"]] = value;
             this.memo.set(key, value);
-            return this;
+            return this as unknown as Builder<T, UsedKeys | typeof key> & SetterMethods<T, UsedKeys | typeof key>;
           },
           writable: false,
           enumerable: false,
